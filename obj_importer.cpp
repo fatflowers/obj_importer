@@ -20,7 +20,7 @@ obj_importer::obj_importer(string obj_filename): obj_filename(obj_filename){
 			vertice_number++;
 		// Face
 		else if(line[0] == 'f' && line[1] == ' ')
-			face_number++;Parameter space vertice
+			face_number++;
 		// Normal
 		else if(line[0] == 'v' && line[1] == 'n');
 		// Parameter space vertice

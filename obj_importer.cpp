@@ -36,6 +36,6 @@ obj_importer::obj_importer(string obj_filename): obj_filename(obj_filename){
 
 int main(){
 	obj_importer o(string("/home/simon/obj_importer/data.obj"));
-
+	o.line_parser(string("v 0.006636 -0.001313 2.447146"));	
 	return 0;
 }

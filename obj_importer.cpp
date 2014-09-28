@@ -4,8 +4,11 @@
  * init all the number member
  * */
 obj_importer::obj_importer(string obj_filename): obj_filename(obj_filename){
+	m_vMax.x = m_vMax.y = m_vMax.z = numeric_limits<float>::max();
+	m_vMin.x = m_vMin.y = m_vMin.z = numeric_limits<float>::min();
+	// 查询点的个数，为存储预分配空间
 	fstream obj_file(obj_filename.c_str());
-	//assert(obj_file);
+	// assert(obj_file);
 	vertice_number = 0;
 	face_number = 0;
 	if(!obj_file){
@@ -32,6 +35,7 @@ obj_importer::obj_importer(string obj_filename): obj_filename(obj_filename){
 	
 	vertices.reserve(vertice_number * 3);
 	//faces.reverse(face_number * 3);
+	file_parser();
 }
 
 vector<string> obj_importer::line_parser(string line){
@@ -48,8 +52,8 @@ vector<string> obj_importer::line_parser(string line){
 	if(line.length())
 		result.push_back(line);
 
-	for(unsigned i = 0; i < result.size(); i++)
-		cout << result[i] << endl;
+	/*for(unsigned i = 0; i < result.size(); i++)
+		cout << result[i] << endl;*/
 	return result;
 }
 
@@ -72,6 +76,20 @@ void obj_importer::file_parser(void){
 			vtmp.x = (float)atof(tmp[0].c_str());
 			vtmp.y = (float)atof(tmp[1].c_str());
 			vtmp.z = (float)atof(tmp[2].c_str());
+			if(vtmp.x > m_vMax.x)
+				m_vMax.x = vtmp.x;
+			if(vtmp.y > m_vMax.y)
+				m_vMax.y = vtmp.y;
+			if(vtmp.z > m_vMax.z)
+				m_vMax.z = vtmp.z;
+
+			if(vtmp.x < m_vMin.x)
+				m_vMin.x = vtmp.x;
+			if(vtmp.y < m_vMin.y)
+				m_vMin.y = vtmp.y;
+			if(vtmp.z < m_vMin.z)
+				m_vMin.z = vtmp.z;
+
 			vertices.push_back(vtmp);
 		}
 		// Face，暂时只支持三个index值
@@ -92,9 +110,9 @@ void obj_importer::file_parser(void){
 	obj_file.close();
 }
 
-int main(){
-	obj_importer o(string("C:\\Users\\Administrator\\Documents\\GitHub\\obj_importer\\data.obj"));
-	o.line_parser(string("v 0.006636 -0.001313 2.447146"));	
-	return 0;
-}
+//int main(){
+//	obj_importer o(string("C:\\Users\\Administrator\\Documents\\GitHub\\obj_importer\\data.obj"));
+//	o.line_parser(string("v 0.006636 -0.001313 2.447146"));	
+//	return 0;
+//}
 
